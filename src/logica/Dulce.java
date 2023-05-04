@@ -16,7 +16,7 @@ public class Dulce {
         this.nombre = nombre;
     }
     public Categoria getCategoria() {
-        return categoria; 
+        return categoria;
     }
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
