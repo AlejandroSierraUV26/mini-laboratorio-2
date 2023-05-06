@@ -4,10 +4,11 @@ public class Dulce {
     private Categoria categoria;
     private short cantidad;
     private short precio;
-    public Dulce(String nombre, Categoria categoria, short cantidad){
+    public Dulce(String nombre, Categoria categoria, short cantidad, short precio){
         this.nombre = nombre;
         this.categoria = categoria;
         this.cantidad = cantidad;
+        this.precio = precio;
     }
     public String getNombre() {
         return nombre;
