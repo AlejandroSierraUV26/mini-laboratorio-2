@@ -30,7 +30,7 @@ public class Dulce {
     }
     public short getPrecio() {
         return precio;
-    }
+    } 
     public void setPrecio(short precio) {
         this.precio = precio;
     }
