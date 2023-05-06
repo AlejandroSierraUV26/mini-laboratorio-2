@@ -38,10 +38,10 @@ public class Dulce {
         System.out.println("-----------------------------------------------------------------");
         System.out.println("                         Datos Dulce                          ");
         System.out.println("-----------------------------------------------------------------");
-        System.out.println("            Nombre: " + getNombre()+"                            \n" 
-                        +  "            Precio : "+ getPrecio() +"                           \n"
-                        +  "            Categoria : " + getCategoria() +"                \n"                
-                        +  "            Cantidad : "+ getCantidad()+"                       "); 
-        System.out.println("----------------------------------------------------------------");
+        System.out.println("|           Nombre: " + getNombre()+"                            \n" 
+                        +  "|           Precio : "+ getPrecio() +"                           \n"
+                        +  "|           Categoria : " + getCategoria() +"                \n"                
+                        +  "|           Cantidad : "+ getCantidad()+"                       "); 
+        System.out.println("-----------------------------------------------------------------");
     }
 }

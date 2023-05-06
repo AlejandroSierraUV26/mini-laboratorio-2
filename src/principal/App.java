@@ -119,10 +119,7 @@ public class App {
     //Listo
     public static int Buscar_Dulce(ArrayList<Dulce> lista_dulces){
         //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        if(lista_dulces.size()== 0){
-            System.out.println("-----------------------------------------------------------------");
-            System.out.println("        No hay Dulces en la tienda");
-            System.out.println("-----------------------------------------------------------------");
+        if(IsEmpty(lista_dulces)){
             JOptionPane.showMessageDialog(null, "No es posible Buscar el Dulce", null, 0);
         }
         else{
@@ -138,8 +135,21 @@ public class App {
         }
         return -1;
     }
-    
-    public static void Listar_Dulces(ArrayList<Dulce> lista_dulces){}
+    //Listo
+    public static void Listar_Dulces(ArrayList<Dulce> lista_dulces){
+        //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        if(IsEmpty(lista_dulces)){
+            JOptionPane.showMessageDialog(null, "No es posible Mostrar los Dulces", null, 0);
+        }
+        else{
+            System.out.println("=================================================================");
+            System.out.println("|                     Inventario Dulces                         |");
+            System.out.println("=================================================================");
+            for (int i = 0; i < lista_dulces.size(); i++){
+                lista_dulces.get(i).MostrarDatos();
+            }    
+        }
+    }
     public static void main(String[] args) throws Exception {
     Byte opcion;
     ArrayList <Dulce> lista_dulces = new ArrayList<Dulce>();
