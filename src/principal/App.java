@@ -8,6 +8,16 @@ import logica.Categoria;
 import logica.Dulce;
 
 public class App {
+    public static Boolean IsEmpty(ArrayList<Dulce> lista_dulces){
+        if(lista_dulces.isEmpty()){
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("        No hay Dulces en la Tienda");
+            System.out.println("-----------------------------------------------------------------");
+            return true;
+        }
+        return false;
+    }
+    //Listo
     public static void Insertar_Dulce(ArrayList<Dulce> lista_dulces){
         //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         String nombre;
@@ -36,10 +46,77 @@ public class App {
         n1.MostrarDatos();
         lista_dulces.add(n1);
     }
+    //Listo
     public static void Actualizar_Dulce(ArrayList<Dulce> lista_dulces){
-
+        //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        if(IsEmpty(lista_dulces)){
+            JOptionPane.showMessageDialog(null, "No es posible Actualizar Dulce", null, 0);
+        }
+        else{
+            int i=0;
+            i = Buscar_Dulce(lista_dulces);
+            if(i>=0){
+            String nombre;
+            short precio,cantidad;
+            int opcion;
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "Que desea cambiar de su mascota\n"
+            +"1.Cambia el nombre del Dulce.\n"
+            +"2.Cambiar el precio del Dulce\n"
+            +"3.Cambiar la cantidad del Dulce"));
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("=================================================================");
+            switch(opcion){
+                case 1:
+                //Cambia el nombre del dulce
+                System.out.println("Cambia el nombre");
+                System.out.println("Nombre actual : "+lista_dulces.get(i).getNombre());
+                nombre = JOptionPane.showInputDialog(null, "Ingrese el nuevo nombre del Dulce:");
+                lista_dulces.get(i).setNombre(nombre);
+                System.out.println("Nombre nuevo : " + lista_dulces.get(i).getNombre());
+                break;
+                case 2:
+                //Cambiar la precio del dulce
+                System.out.println("Cambia Precio");
+                System.out.println("Precio anterior : "+lista_dulces.get(i).getPrecio());
+                precio = Short.parseShort(JOptionPane.showInputDialog(null, "Ingrese el precio nueva del Dulce:"));
+                lista_dulces.get(i).setPrecio(precio);
+                System.out.println("Precio nueva : " + lista_dulces.get(i).getPrecio());
+                break;
+                case 3:
+                //Cambiar la cantidad del dulce
+                System.out.println("Cambia cantidad");
+                System.out.println("Cantidad anterior : "+lista_dulces.get(i).getCantidad());
+                cantidad = Short.parseShort(JOptionPane.showInputDialog(null, "Ingrese la cantidad nueva del Dulce:"));
+                lista_dulces.get(i).setCantidad(cantidad);
+                System.out.println("Cantidad nueva : " + lista_dulces.get(i).getCantidad());
+                break;
+            }
+            System.out.println("=================================================================");
+            //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            lista_dulces.get(i).MostrarDatos();
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Al parecer esa Dulce no esta aqui");
+            }
+        }
     }
-    public static void Eliminar_Dulce(ArrayList<Dulce> lista_dulces){}
+    //Listo
+    public static void Eliminar_Dulce(ArrayList<Dulce> lista_dulces){
+        //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        if(IsEmpty(lista_dulces)){
+            JOptionPane.showMessageDialog(null, "No es posible Eliminar Mascota", null, 0);
+        }
+        else{
+            int i= 0;
+            i = Buscar_Dulce(lista_dulces);
+            //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                lista_dulces.remove(i);
+                System.out.println("----------------------------------------------------\n              Dulce Eliminada\n----------------------------------------------------");
+                JOptionPane.showMessageDialog(null, "Se elimino el dulce", null, 1);
+        }
+           
+    }
+    //Listo
     public static int Buscar_Dulce(ArrayList<Dulce> lista_dulces){
         //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         if(lista_dulces.size()== 0){
@@ -61,6 +138,7 @@ public class App {
         }
         return -1;
     }
+    
     public static void Listar_Dulces(ArrayList<Dulce> lista_dulces){}
     public static void main(String[] args) throws Exception {
     Byte opcion;
