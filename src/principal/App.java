@@ -8,6 +8,59 @@ import logica.Categoria;
 import logica.Dulce;
 
 public class App {
+    public static void MostrarDetalle(ArrayList<Dulce> lista_dulces){
+        short cand_dulce=0, cand_sazucar=0, cand_acido=0;
+        int mayor = 0, menor=10,caro = 0, barato =10;
+        String nombre_mayor ="",nombre_menor ="",nombre_caro ="",nombre_barato ="";
+        for(int i=0; i<lista_dulces.size();i++){
+            if(lista_dulces.get(i).getPrecio() > caro ){
+                caro = lista_dulces.get(i).getPrecio();
+                nombre_caro = lista_dulces.get(i).getNombre();
+            }
+            if(lista_dulces.get(i).getPrecio() < barato){
+                barato = lista_dulces.get(i).getPrecio();
+                nombre_barato = lista_dulces.get(i).getNombre();
+            }
+            if(lista_dulces.get(i).getCantidad() > mayor ){
+                mayor = lista_dulces.get(i).getCantidad();
+                nombre_mayor = lista_dulces.get(i).getNombre();
+            }
+            if(lista_dulces.get(i).getCantidad() < menor){
+                menor = lista_dulces.get(i).getCantidad();
+                nombre_menor = lista_dulces.get(i).getNombre();
+            }
+            if(lista_dulces.get(i).getCategoria().equals(Categoria.acido)){
+                cand_acido += lista_dulces.get(i).getCantidad();
+            }
+            else if(lista_dulces.get(i).getCategoria().equals(Categoria.dulce)){
+                cand_dulce += lista_dulces.get(i).getCantidad();
+            }
+            else if(lista_dulces.get(i).getCategoria().equals(Categoria.sin_azucar)){
+                cand_sazucar += lista_dulces.get(i).getCantidad();
+            }
+        }
+        System.out.println("=================================================================");
+        System.out.println("          Cantidad de dulces :" + (cand_acido + cand_sazucar + cand_dulce));
+        System.out.println("-----------------------------------------------------------------");
+        System.out.println("          Dulces acidos :     "+ cand_acido );
+        System.out.println("          Dulces dulces :     "+ cand_dulce );
+        System.out.println("          Dulces sin azucar : "+ cand_sazucar );
+        System.out.println("-----------------------------------------------------------------");
+        System.out.println("          Nombre : "+ nombre_mayor);
+        System.out.println("          Dulces Mayor Cantidad : "+ mayor );
+        System.out.println("          Nombre : "+ nombre_menor);
+        System.out.println("          Dulces Menor Cantidad : "+ menor );
+        System.out.println("-----------------------------------------------------------------");
+        System.out.println("          Nombre : "+ nombre_caro);
+        System.out.println("          Dulces más costoso : "+ caro );
+        System.out.println("          Nombre : "+ nombre_barato);
+        System.out.println("          Dulces más barato : "+ barato);
+        System.out.println("-----------------------------------------------------------------");
+
+
+        System.out.println("=================================================================");
+
+    }
     public static Boolean IsEmpty(ArrayList<Dulce> lista_dulces){
         if(lista_dulces.isEmpty()){
             System.out.println("-----------------------------------------------------------------");
@@ -44,9 +97,8 @@ public class App {
         }
         Dulce n1 = new Dulce(nombre,categoria,cantidad,precio);
         n1.MostrarDatos();
-        n1.AgregarDulce(categoria, cantidad);
-        n1.MostrarDetalle();
         lista_dulces.add(n1);
+        MostrarDetalle(lista_dulces);
         
     }
     //Listo
