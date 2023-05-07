@@ -44,7 +44,10 @@ public class App {
         }
         Dulce n1 = new Dulce(nombre,categoria,cantidad,precio);
         n1.MostrarDatos();
+        n1.AgregarDulce(categoria, cantidad);
+        n1.MostrarDetalle();
         lista_dulces.add(n1);
+        
     }
     //Listo
     public static void Actualizar_Dulce(ArrayList<Dulce> lista_dulces){
