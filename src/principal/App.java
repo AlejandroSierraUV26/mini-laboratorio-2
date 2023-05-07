@@ -1,12 +1,8 @@
 package principal;
-
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import logica.Categoria;
 import logica.Dulce;
-
 public class App {
     public static void MostrarDetalle(ArrayList<Dulce> lista_dulces){
         short cand_dulce=0, cand_sazucar=0, cand_acido=0;
@@ -56,8 +52,6 @@ public class App {
         System.out.println("          Nombre : "+ nombre_barato);
         System.out.println("          Dulces más barato : "+ barato);
         System.out.println("-----------------------------------------------------------------");
-
-
         System.out.println("=================================================================");
 
     }
@@ -73,7 +67,23 @@ public class App {
     //Listo
     public static void Insertar_Dulce(ArrayList<Dulce> lista_dulces){
         //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        String nombre;
+        String nombre,codigo="";
+        int x,n;
+        String[] letras = 
+        {"A","B","C","D","E",
+        "F","G","H","I","J", 
+        "K","L","M","N","O", 
+        "P","Q","R","S","T", 
+        "U","V","W","X","Y","Z"};
+        //Pendiente comparacion para codigos iguales existentes.
+        for (int i =0;i<3;i++){
+            x = (int) (Math.random() * 26 + 0);
+            codigo += letras[x];
+        }
+        for (int i =0;i<3;i++){
+            n = (int) (Math.random() * 10 + 0);
+            codigo += n;
+        }
         Short cantidad,precio;
         Categoria categoria;
         int opcion;
@@ -95,10 +105,10 @@ public class App {
                 categoria = null;
                 break;
         }
-        Dulce n1 = new Dulce(nombre,categoria,cantidad,precio);
+        
+        Dulce n1 = new Dulce(nombre,codigo,categoria,cantidad,precio);
         n1.MostrarDatos();
         lista_dulces.add(n1);
-        MostrarDetalle(lista_dulces);
         
     }
     //Listo

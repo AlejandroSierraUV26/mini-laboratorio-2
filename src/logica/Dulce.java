@@ -5,12 +5,20 @@ public class Dulce {
     private Categoria categoria;
     private short cantidad;
     private short precio;
-    public Dulce(String nombre, Categoria categoria, short cantidad, short precio){
+    private String codigo;
+    public Dulce(String nombre,String codigo, Categoria categoria, short cantidad, short precio){
         this.nombre = nombre;
+        this.codigo = codigo;
         this.categoria = categoria;
         this.cantidad = cantidad;
         this.precio = precio;
 
+    }
+    public String getCodigo() {
+        return codigo;
+    }
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
     public String getNombre() {
         return nombre;
@@ -40,7 +48,8 @@ public class Dulce {
         System.out.println("-----------------------------------------------------------------");
         System.out.println("                         Datos Dulce                          ");
         System.out.println("-----------------------------------------------------------------");
-        System.out.println("|           Nombre: " + getNombre()+"                            \n" 
+        System.out.println("|           Nombre: " + getNombre()+"                            \n"
+                        +  "|           Codigo : "+ getCodigo() +"                           \n" 
                         +  "|           Precio : "+ getPrecio() +"                           \n"
                         +  "|           Categoria : " + getCategoria() +"                \n"                
                         +  "|           Cantidad : "+ getCantidad()+"                       "); 
