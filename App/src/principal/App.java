@@ -150,7 +150,7 @@ public class App {
                 System.out.println("Precio nueva : " + lista_dulces.get(i).getPrecio());
                 break;
                 case 3:
-                //Cambiar la cantidad del dulce
+                //Cambiar la cantidad del dulce hola
                 System.out.println("Cambia cantidad");
                 System.out.println("Cantidad anterior : "+lista_dulces.get(i).getCantidad());
                 cantidad = Short.parseShort(JOptionPane.showInputDialog(null, "Ingrese la cantidad nueva del Dulce:"));
