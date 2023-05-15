@@ -1,5 +1,6 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
@@ -7,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,20 +17,25 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 
 public class Ventana extends JFrame implements ActionListener {
 
-    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelInsertarSeleccion;
+    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelActualizar, panelActualizarCodigo, panelActualizarDatos;
     ImageIcon imagenIcono;
-    JLabel logoRinconDulce;
+    JLabel logoRinconDulce, etiquetaActualizar, etiqueta2;
     JButton[] botonesPanelPrincipal = new JButton[6];
     JLabel[] etiquetasPanelInsertar = new JLabel[4];
     String opcionesPanelPrincipal[] = {"Insertar Dulce", "Actualizar Dulces", "Eliminar Dulces", "Buscar Dulces", "Listar Dulces", "Resumen Dulces"};
     String opcionesPanelEtiquetas[] = {"Nombre", "Categoria", "Precio", "Cantidad"};
-    JButton botonEnviarInsertar;
-    JTextArea areaTextoNombre, areaTextoPrecio, areaTextoCantidad;
+    JButton botonEnviarInsertar, botonEnviarActualizar;
+    JTextArea areaTextoNombre, areaTextoPrecio, areaTextoCantidad, areaTextoActualizar;
     String[] opciones = {"Acido","Dulce","Sin Azucar"};
     JComboBox<String> categorias;
+    JScrollPane scroll, scroll2, scroll3;
+    String contenido, contenido2, contenido3, contenido4;
 
     public Ventana(){
         setSize(500, 500); 
@@ -95,9 +103,13 @@ public class Ventana extends JFrame implements ActionListener {
         areaTextoPrecio.setFont(new Font("Arial", Font.BOLD, 25));
         areaTextoCantidad.setFont(new Font("Arial", Font.BOLD, 25));
 
-        areaTextoNombre.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),30));
-        areaTextoPrecio.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),30));
-        areaTextoCantidad.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),30));
+        scroll = new JScrollPane(areaTextoNombre, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll2 = new JScrollPane(areaTextoPrecio, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll3 = new JScrollPane(areaTextoCantidad, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        scroll.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),30));
+        scroll2.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),30));
+        scroll3.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),30));
 
         categorias = new JComboBox<>(opciones);
         categorias.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),30));
@@ -109,7 +121,7 @@ public class Ventana extends JFrame implements ActionListener {
             etiquetasPanelInsertar[i].setHorizontalAlignment(SwingConstants.CENTER);
             if(i==0){
                 panelInsertarEtiquetas.add(etiquetasPanelInsertar[0]);
-                panelInsertarEtiquetas.add(areaTextoNombre);
+                panelInsertarEtiquetas.add(scroll);
             }
             else if(i == 1){
                 panelInsertarEtiquetas.add(etiquetasPanelInsertar[1]);
@@ -117,11 +129,11 @@ public class Ventana extends JFrame implements ActionListener {
             }
             else if(i == 2){
                 panelInsertarEtiquetas.add(etiquetasPanelInsertar[2]);
-                panelInsertarEtiquetas.add(areaTextoPrecio);
+                panelInsertarEtiquetas.add(scroll2);
             }
             else{
                 panelInsertarEtiquetas.add(etiquetasPanelInsertar[3]);
-                panelInsertarEtiquetas.add(areaTextoCantidad);
+                panelInsertarEtiquetas.add(scroll3);
             }
         }
         
@@ -131,18 +143,75 @@ public class Ventana extends JFrame implements ActionListener {
         
         panelInsertar.add(panelInsertarEtiquetas, BorderLayout.CENTER);
         panelInsertar.add(botonEnviarInsertar, BorderLayout.SOUTH);
+
+        panelActualizar = new JPanel(new GridLayout(2,1));
+        panelActualizarCodigo = new JPanel(new BorderLayout());
+        panelActualizarDatos = new JPanel(new BorderLayout());
+
+        panelActualizar.setBackground(Color.decode("#FFF3F9"));
+
+        etiquetaActualizar = new JLabel("Ingrese el codigo");
+        etiquetaActualizar.setFont(new Font("Arial", Font.BOLD, 40));
+        etiquetaActualizar.setHorizontalAlignment(SwingConstants.CENTER);
+
+        areaTextoActualizar = new JTextArea();
+        areaTextoActualizar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),70));
+        areaTextoActualizar.setFont(new Font("Arial", Font.BOLD, 50));
+        areaTextoActualizar.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e){
+                if(areaTextoActualizar.getText().length() >= 6){
+                    e.consume();
+                }
+            }
+        });
+
+        botonEnviarActualizar = new JButton("Enivar");
+        botonEnviarActualizar.addActionListener(this);
+        panelActualizarCodigo.add(areaTextoActualizar, BorderLayout.CENTER);
+        panelActualizarCodigo.add(botonEnviarActualizar, BorderLayout.SOUTH);
+        
+        panelActualizar.add(etiquetaActualizar);
+        panelActualizar.add(panelActualizarCodigo);
     }
 
     public void actionPerformed(ActionEvent e){
+        contenido = areaTextoNombre.getText().trim();
+        contenido2 = areaTextoPrecio.getText().trim();
+        contenido3 = areaTextoCantidad.getText().trim();
+        contenido4 = areaTextoActualizar.getText().trim();
         if(e.getSource()==botonesPanelPrincipal[0]){
             panelPrincipal.setVisible(false);
             panelInsertar.setVisible(true);
             add(panelInsertar);
         }
         else if(e.getSource()==botonEnviarInsertar){
-            panelInsertar.setVisible(false);
-            panelPrincipal.setVisible(true);
-            add(panelPrincipal);
+            if(contenido.isEmpty() || contenido2.isEmpty() || contenido3.isEmpty()){
+                JOptionPane.showMessageDialog(null,"Llene todas las casillas","Advertencia",JOptionPane.WARNING_MESSAGE);       
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"El codigo del producto es: ", "CODIGO", JOptionPane.INFORMATION_MESSAGE);
+                areaTextoNombre.setText(null);
+                categorias.setSelectedItem("Acido");
+                areaTextoPrecio.setText(null);;
+                areaTextoCantidad.setText(null);
+                panelInsertar.setVisible(false);
+                panelPrincipal.setVisible(true);
+                add(panelPrincipal);
+            }
+            
+        }
+        else if(e.getSource()==botonesPanelPrincipal[1]){
+            panelPrincipal.setVisible(false);
+            panelActualizar.setVisible(true);
+            add(panelActualizar);
+        }
+        else if(e.getSource()==botonEnviarActualizar){
+            if(contenido4.isEmpty() || contenido4.length()<6){
+                JOptionPane.showMessageDialog(null,"El codigo debe ser de 6 caracteres","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                panelActualizarCodigo.setVisible(false);              
+            }
         }
     }
 }
