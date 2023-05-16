@@ -2,6 +2,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -26,20 +27,21 @@ import java.awt.event.KeyEvent;
 
 public class Ventana extends JFrame implements ActionListener {
 
-    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelActualizar, panelActualizarDatos, panelActualizarOpciones;
+    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelActualizar, panelActualizarDatos, panelActualizarOpciones, panelEliminar, panelBuscar, panelBuscarSuperior, panelBuscarInferior;
     ImageIcon imagenIcono;
-    JLabel logoRinconDulce, etiquetaActualizar, etiquetaActualizarDatos, etiquetaRelleno1, etiquetaRelleno2;
+    JLabel logoRinconDulce, etiquetaActualizar, etiquetaActualizarDatos, etiquetaRelleno1, etiquetaRelleno2, etiquetaEliminar, etiquetaBuscar;
     JButton[] botonesPanelPrincipal = new JButton[6];
     JLabel[] etiquetasPanelInsertar = new JLabel[4];
     String opcionesPanelPrincipal[] = {"Insertar Dulce", "Actualizar Dulces", "Eliminar Dulces", "Buscar Dulces", "Listar Dulces", "Resumen Dulces"};
     String opcionesPanelEtiquetas[] = {"Nombre", "Categoria", "Precio", "Cantidad"};
-    JButton botonEnviarInsertar, botonEnviarActualizar, botonEnviarActualizarOpciones;
-    JTextArea areaTextoNombre, areaTextoPrecio, areaTextoCantidad, areaTextoActualizar, areaTextoActualizarNombre, areaTextoActualizarPrecio, areaTextoActualizarCantidad;
+    JButton botonEnviarInsertar, botonEnviarActualizar, botonEnviarActualizarOpciones, botonEliminar, botonBuscar, botonRegresar;
+    JTextArea areaTextoNombre, areaTextoPrecio, areaTextoCantidad, areaTextoActualizar, areaTextoActualizarNombre, areaTextoActualizarPrecio, areaTextoActualizarCantidad, areaTextoEliminar, areaTextoBuscar;
     String[] opciones = {"Acido","Dulce","Sin Azucar"};
     JComboBox<String> categorias;
     JScrollPane scroll, scroll2, scroll3, scroll4, scroll5, scroll6;
-    String contenido, contenido2, contenido3, contenido4, contenido5, contenido6, contenido7;
+    String contenido, contenido2, contenido3, contenido4, contenido5, contenido6, contenido7, contenido8, contenido9;
     JCheckBox checkBox1, checkBox2, checkBox3;
+    JTextField campoTexto;
 
     public Ventana(){
         setSize(500, 500); 
@@ -266,11 +268,80 @@ public class Ventana extends JFrame implements ActionListener {
         panelActualizarOpciones.add(scroll6);
         panelActualizarOpciones.add(botonEnviarActualizarOpciones);
 
-        
-
         panelActualizarDatos.add(etiquetaActualizarDatos);
         panelActualizarDatos.add(panelActualizarOpciones);
 
+        panelEliminar = new JPanel(new BorderLayout());
+        panelEliminar.setBackground(Color.decode("#FFF3F9"));
+
+        etiquetaEliminar = new JLabel("Ingrese el codigo");
+        etiquetaEliminar.setFont(new Font("Arial", Font.BOLD, 40));
+        etiquetaEliminar.setHorizontalAlignment(SwingConstants.CENTER);
+
+        areaTextoEliminar = new JTextArea();
+        areaTextoEliminar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),45));
+        areaTextoEliminar.setFont(new Font("Arial", Font.BOLD, 50));
+        areaTextoEliminar.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e){
+                if(areaTextoEliminar.getText().length() >= 6){
+                    e.consume();
+                }
+            }
+        });
+
+        botonEliminar = new JButton("Eliminar");
+        botonEliminar.addActionListener(this);
+        botonEliminar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),110));
+        botonEliminar.setFont(new Font("Arial", Font.BOLD, 30));
+
+        panelEliminar.add(etiquetaEliminar, BorderLayout.NORTH);
+        panelEliminar.add(areaTextoEliminar, BorderLayout.CENTER);
+        panelEliminar.add(botonEliminar, BorderLayout.SOUTH);
+
+        panelBuscar = new JPanel(new GridLayout(2,1));
+        panelBuscarSuperior = new JPanel(new GridLayout(3,1));
+        panelBuscarInferior = new JPanel(new BorderLayout());
+
+        panelBuscarSuperior.setBackground(Color.decode("#FFF3F9"));
+
+        etiquetaBuscar = new JLabel("Ingrese el codigo");
+        etiquetaBuscar.setFont(new Font("Arial", Font.BOLD, 40));
+        etiquetaBuscar.setHorizontalAlignment(SwingConstants.CENTER);
+
+        areaTextoBuscar = new JTextArea();
+        areaTextoBuscar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),5));
+        areaTextoBuscar.setFont(new Font("Arial", Font.BOLD, 50));
+        areaTextoBuscar.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e){
+                if(areaTextoBuscar.getText().length() >= 6){
+                    e.consume();
+                }
+            }
+        });
+
+        botonBuscar = new JButton("Buscar");
+        botonBuscar.addActionListener(this);
+        botonBuscar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),5));
+        botonBuscar.setFont(new Font("Arial", Font.BOLD, 30));
+
+        panelBuscarSuperior.add(etiquetaBuscar);
+        panelBuscarSuperior.add(areaTextoBuscar);
+        panelBuscarSuperior.add(botonBuscar);
+
+        campoTexto = new JTextField();
+        campoTexto.setEditable(false);
+        //campoTexto.setBackground(Color.decode("#FFF3F9"));
+        campoTexto.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),50));
+
+        botonRegresar = new JButton("Regresar");
+        botonRegresar.addActionListener(this);
+
+        panelBuscarInferior.add(campoTexto, BorderLayout.CENTER);
+        panelBuscarInferior.add(botonRegresar, BorderLayout.SOUTH);
+
+
+        panelBuscar.add(panelBuscarSuperior);
+        panelBuscar.add(panelBuscarInferior);
     }
 
     public void actionPerformed(ActionEvent e){
@@ -323,6 +394,7 @@ public class Ventana extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null,"Debes seleccionar una opcion y llenarla para actualizar","Advertencia",JOptionPane.WARNING_MESSAGE);
             }
             else{
+                JOptionPane.showMessageDialog(null,"Producto Actualizado","Actualizado",JOptionPane.INFORMATION_MESSAGE);
                 checkBox1.setSelected(false);
                 checkBox2.setSelected(false);
                 checkBox3.setSelected(false);
@@ -333,6 +405,46 @@ public class Ventana extends JFrame implements ActionListener {
                 panelPrincipal.setVisible(true);
                 add(panelPrincipal);
             }
+        }
+        else if(e.getSource() == botonesPanelPrincipal[2]){
+            panelPrincipal.setVisible(false);
+            panelEliminar.setVisible(true);
+            add(panelEliminar);
+        }
+        else if(e.getSource() == botonEliminar){
+            contenido8 = areaTextoEliminar.getText().trim();
+            if(contenido8.isEmpty() || contenido8.length()<6){
+                JOptionPane.showMessageDialog(null,"El codigo debe ser de 6 caracteres","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Producto Eliminado","Eliminado",JOptionPane.INFORMATION_MESSAGE);
+                areaTextoEliminar.setText(null);
+                panelEliminar.setVisible(false);
+                panelPrincipal.setVisible(true);
+                add(panelPrincipal);
+            }
+        }
+        else if(e.getSource() == botonesPanelPrincipal[3]){
+            panelPrincipal.setVisible(false);
+            panelBuscar.setVisible(true);
+            add(panelBuscar);
+        }
+        else if(e.getSource() == botonBuscar){
+            contenido9 = areaTextoBuscar.getText().trim();
+            if(contenido9.isEmpty() || contenido9.length()<6){
+                JOptionPane.showMessageDialog(null,"El codigo debe ser de 6 caracteres","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                campoTexto.setBackground(Color.decode("#FFF3F9"));
+            }
+            
+        }
+        else if(e.getSource() == botonRegresar){
+            areaTextoBuscar.setText(null);
+            campoTexto.setBackground(null);
+            panelBuscar.setVisible(false);
+            panelPrincipal.setVisible(true);
+            add(panelPrincipal);
         }
     }
 }
