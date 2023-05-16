@@ -1,9 +1,11 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,12 +29,12 @@ import java.awt.event.KeyEvent;
 
 public class Ventana extends JFrame implements ActionListener {
 
-    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelActualizar, panelActualizarDatos, panelActualizarOpciones, panelEliminar, panelBuscar, panelBuscarSuperior, panelBuscarInferior;
+    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelActualizar, panelActualizarDatos, panelActualizarOpciones, panelEliminar, panelBuscar, panelBuscarSuperior, panelBuscarInferior, panelListar;
     ImageIcon imagenIcono;
     JLabel logoRinconDulce, etiquetaActualizar, etiquetaActualizarDatos, etiquetaRelleno1, etiquetaRelleno2, etiquetaEliminar, etiquetaBuscar;
-    JButton[] botonesPanelPrincipal = new JButton[6];
+    JButton[] botonesPanelPrincipal = new JButton[5];
     JLabel[] etiquetasPanelInsertar = new JLabel[4];
-    String opcionesPanelPrincipal[] = {"Insertar Dulce", "Actualizar Dulces", "Eliminar Dulces", "Buscar Dulces", "Listar Dulces", "Resumen Dulces"};
+    String opcionesPanelPrincipal[] = {"Insertar Dulce", "Actualizar Dulces", "Eliminar Dulces", "Buscar Dulces", "Listar Dulces"};
     String opcionesPanelEtiquetas[] = {"Nombre", "Categoria", "Precio", "Cantidad"};
     JButton botonEnviarInsertar, botonEnviarActualizar, botonEnviarActualizarOpciones, botonEliminar, botonBuscar, botonRegresar;
     JTextArea areaTextoNombre, areaTextoPrecio, areaTextoCantidad, areaTextoActualizar, areaTextoActualizarNombre, areaTextoActualizarPrecio, areaTextoActualizarCantidad, areaTextoEliminar, areaTextoBuscar;
@@ -42,6 +44,11 @@ public class Ventana extends JFrame implements ActionListener {
     String contenido, contenido2, contenido3, contenido4, contenido5, contenido6, contenido7, contenido8, contenido9;
     JCheckBox checkBox1, checkBox2, checkBox3;
     JTextField campoTexto;
+    JTable tabla;
+
+    
+
+    
 
     public Ventana(){
         setSize(500, 500); 
@@ -66,7 +73,7 @@ public class Ventana extends JFrame implements ActionListener {
         panelPrincipal2 = new JPanel();
         panelPrincipal2.setLayout(new BorderLayout());
         panelPrincipal3 = new JPanel();
-        panelPrincipal3.setLayout(new GridLayout(6,1));
+        panelPrincipal3.setLayout(new GridLayout(5,1));
         
         for(int i = 0; i<botonesPanelPrincipal.length; i++){
             botonesPanelPrincipal[i] = new JButton();
@@ -342,6 +349,10 @@ public class Ventana extends JFrame implements ActionListener {
 
         panelBuscar.add(panelBuscarSuperior);
         panelBuscar.add(panelBuscarInferior);
+
+        panelListar = new JPanel();
+
+        
     }
 
     public void actionPerformed(ActionEvent e){
@@ -445,6 +456,11 @@ public class Ventana extends JFrame implements ActionListener {
             panelBuscar.setVisible(false);
             panelPrincipal.setVisible(true);
             add(panelPrincipal);
+        }
+        else if(e.getSource() == botonesPanelPrincipal[4]){
+            panelPrincipal.setVisible(false);
+            panelListar.setVisible(true);
+            add(panelListar);
         }
     }
 }
