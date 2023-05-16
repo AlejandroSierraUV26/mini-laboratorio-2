@@ -6,6 +6,7 @@ import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,25 +18,28 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 
 public class Ventana extends JFrame implements ActionListener {
 
-    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelActualizar, panelActualizarCodigo, panelActualizarDatos;
+    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelActualizar, panelActualizarDatos, panelActualizarOpciones;
     ImageIcon imagenIcono;
-    JLabel logoRinconDulce, etiquetaActualizar, etiqueta2;
+    JLabel logoRinconDulce, etiquetaActualizar, etiquetaActualizarDatos, etiquetaRelleno1, etiquetaRelleno2;
     JButton[] botonesPanelPrincipal = new JButton[6];
     JLabel[] etiquetasPanelInsertar = new JLabel[4];
     String opcionesPanelPrincipal[] = {"Insertar Dulce", "Actualizar Dulces", "Eliminar Dulces", "Buscar Dulces", "Listar Dulces", "Resumen Dulces"};
     String opcionesPanelEtiquetas[] = {"Nombre", "Categoria", "Precio", "Cantidad"};
-    JButton botonEnviarInsertar, botonEnviarActualizar;
-    JTextArea areaTextoNombre, areaTextoPrecio, areaTextoCantidad, areaTextoActualizar;
+    JButton botonEnviarInsertar, botonEnviarActualizar, botonEnviarActualizarOpciones;
+    JTextArea areaTextoNombre, areaTextoPrecio, areaTextoCantidad, areaTextoActualizar, areaTextoActualizarNombre, areaTextoActualizarPrecio, areaTextoActualizarCantidad;
     String[] opciones = {"Acido","Dulce","Sin Azucar"};
     JComboBox<String> categorias;
-    JScrollPane scroll, scroll2, scroll3;
-    String contenido, contenido2, contenido3, contenido4;
+    JScrollPane scroll, scroll2, scroll3, scroll4, scroll5, scroll6;
+    String contenido, contenido2, contenido3, contenido4, contenido5, contenido6, contenido7;
+    JCheckBox checkBox1, checkBox2, checkBox3;
 
     public Ventana(){
         setSize(500, 500); 
@@ -66,7 +70,6 @@ public class Ventana extends JFrame implements ActionListener {
             botonesPanelPrincipal[i] = new JButton();
             botonesPanelPrincipal[i].addActionListener(this);
             botonesPanelPrincipal[i].setFont(new Font("Arial",Font.BOLD,15));
-            botonesPanelPrincipal[i].setBackground(Color.decode("#FFFFFF"));
             botonesPanelPrincipal[i].setText(opcionesPanelPrincipal[i]);
             botonesPanelPrincipal[i].setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),5));
             panelPrincipal3.add(botonesPanelPrincipal[i]);
@@ -144,18 +147,21 @@ public class Ventana extends JFrame implements ActionListener {
         panelInsertar.add(panelInsertarEtiquetas, BorderLayout.CENTER);
         panelInsertar.add(botonEnviarInsertar, BorderLayout.SOUTH);
 
-        panelActualizar = new JPanel(new GridLayout(2,1));
-        panelActualizarCodigo = new JPanel(new BorderLayout());
-        panelActualizarDatos = new JPanel(new BorderLayout());
+        panelActualizar = new JPanel(new GridLayout(3,1));
+        panelActualizarDatos = new JPanel(new GridLayout(2,1));
+        panelActualizarOpciones = new JPanel(new GridLayout(3,3));
+
 
         panelActualizar.setBackground(Color.decode("#FFF3F9"));
+        panelActualizarDatos.setBackground(Color.decode("#FFF3F9"));
+        panelActualizarOpciones.setBackground(Color.decode("#FFF3F9"));
 
         etiquetaActualizar = new JLabel("Ingrese el codigo");
         etiquetaActualizar.setFont(new Font("Arial", Font.BOLD, 40));
         etiquetaActualizar.setHorizontalAlignment(SwingConstants.CENTER);
 
         areaTextoActualizar = new JTextArea();
-        areaTextoActualizar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),70));
+        areaTextoActualizar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),45));
         areaTextoActualizar.setFont(new Font("Arial", Font.BOLD, 50));
         areaTextoActualizar.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e){
@@ -165,13 +171,106 @@ public class Ventana extends JFrame implements ActionListener {
             }
         });
 
-        botonEnviarActualizar = new JButton("Enivar");
+        botonEnviarActualizar = new JButton("Enviar");
         botonEnviarActualizar.addActionListener(this);
-        panelActualizarCodigo.add(areaTextoActualizar, BorderLayout.CENTER);
-        panelActualizarCodigo.add(botonEnviarActualizar, BorderLayout.SOUTH);
-        
+        botonEnviarActualizar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),50));
+        botonEnviarActualizar.setFont(new Font("Arial", Font.BOLD, 30));
         panelActualizar.add(etiquetaActualizar);
-        panelActualizar.add(panelActualizarCodigo);
+        panelActualizar.add(areaTextoActualizar);
+        panelActualizar.add(botonEnviarActualizar);
+
+        etiquetaActualizarDatos = new JLabel("CODIGO");
+        etiquetaActualizarDatos.setFont(new Font("Arial", Font.BOLD, 40));
+        etiquetaActualizarDatos.setHorizontalAlignment(SwingConstants.CENTER);
+
+        checkBox1 = new JCheckBox("Nombre");
+        checkBox2 = new JCheckBox("Precio");
+        checkBox3 = new JCheckBox("Cantidad");
+
+        checkBox1.setBackground(Color.decode("#FFF3F9"));
+        checkBox2.setBackground(Color.decode("#FFF3F9"));
+        checkBox3.setBackground(Color.decode("#FFF3F9"));
+
+        checkBox1.setFont(new Font("Arial", Font.BOLD, 20));
+        checkBox2.setFont(new Font("Arial", Font.BOLD, 20));
+        checkBox3.setFont(new Font("Arial", Font.BOLD, 20));
+
+        checkBox1.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e){
+                if(e.getStateChange() == ItemEvent.SELECTED){
+                    scroll4.setVisible(true);
+                }
+                else{
+                    scroll4.setVisible(false);
+                }
+            }
+        });
+        checkBox2.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e){
+                if(e.getStateChange() == ItemEvent.SELECTED){
+                    scroll5.setVisible(true);
+                }
+                else{
+                    scroll5.setVisible(false);
+                }
+            }
+        });
+        checkBox3.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e){
+                if(e.getStateChange() == ItemEvent.SELECTED){
+                    scroll6.setVisible(true);
+                }
+                else{
+                    scroll6.setVisible(false);
+                }
+            }
+        });
+
+        etiquetaRelleno1 = new JLabel();
+        etiquetaRelleno1.setBackground(Color.decode("#FFF3F9"));
+        etiquetaRelleno2 = new JLabel();
+        etiquetaRelleno2.setBackground(Color.decode("#FFF3F9"));
+
+        areaTextoActualizarNombre = new JTextArea();
+        areaTextoActualizarPrecio = new JTextArea();
+        areaTextoActualizarCantidad = new JTextArea();
+
+        areaTextoActualizarNombre.setFont(new Font("Arial", Font.BOLD, 25));
+        areaTextoActualizarPrecio.setFont(new Font("Arial", Font.BOLD, 25));
+        areaTextoActualizarCantidad.setFont(new Font("Arial", Font.BOLD, 25));
+
+        scroll4 = new JScrollPane(areaTextoActualizarNombre, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll5 = new JScrollPane(areaTextoActualizarPrecio, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll6 = new JScrollPane(areaTextoActualizarCantidad, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        scroll4.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),15));
+        scroll5.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),15));
+        scroll6.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),15));
+
+        botonEnviarActualizarOpciones = new JButton("Enviar");
+        botonEnviarActualizarOpciones.addActionListener(this);
+        botonEnviarActualizarOpciones.setFont(new Font("Arial", Font.BOLD, 20));
+        botonEnviarActualizarOpciones.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),15));
+
+        scroll4.setVisible(false);
+        scroll5.setVisible(false);
+        scroll6.setVisible(false);
+
+        panelActualizarOpciones.add(checkBox1);
+        panelActualizarOpciones.add(scroll4);
+        panelActualizarOpciones.add(etiquetaRelleno1);
+        panelActualizarOpciones.add(checkBox2);
+        panelActualizarOpciones.add(scroll5);
+        panelActualizarOpciones.add(etiquetaRelleno2);
+        panelActualizarOpciones.add(checkBox3);
+        panelActualizarOpciones.add(scroll6);
+        panelActualizarOpciones.add(botonEnviarActualizarOpciones);
+
+        
+
+        panelActualizarDatos.add(etiquetaActualizarDatos);
+        panelActualizarDatos.add(panelActualizarOpciones);
+
     }
 
     public void actionPerformed(ActionEvent e){
@@ -210,7 +309,29 @@ public class Ventana extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null,"El codigo debe ser de 6 caracteres","Advertencia",JOptionPane.WARNING_MESSAGE);
             }
             else{
-                panelActualizarCodigo.setVisible(false);              
+                areaTextoActualizar.setText(null);
+                panelActualizar.setVisible(false);             
+                panelActualizarDatos.setVisible(true);
+                add(panelActualizarDatos);
+            }
+        }
+        else if(e.getSource() == botonEnviarActualizarOpciones){
+            contenido5 = areaTextoActualizarNombre.getText().trim();
+            contenido6 = areaTextoActualizarPrecio.getText().trim();
+            contenido7 = areaTextoActualizarCantidad.getText().trim();
+            if(contenido5.isEmpty() && contenido6.isEmpty() && contenido7.isEmpty()){
+                JOptionPane.showMessageDialog(null,"Debes seleccionar una opcion y llenarla para actualizar","Advertencia",JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                checkBox1.setSelected(false);
+                checkBox2.setSelected(false);
+                checkBox3.setSelected(false);
+                areaTextoActualizarNombre.setText(null);
+                areaTextoActualizarPrecio.setText(null);
+                areaTextoActualizarCantidad.setText(null);
+                panelActualizarDatos.setVisible(false);
+                panelPrincipal.setVisible(true);
+                add(panelPrincipal);
             }
         }
     }
