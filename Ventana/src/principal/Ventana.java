@@ -2,7 +2,6 @@ package principal;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import logica.Dulce;
@@ -38,14 +37,14 @@ public class Ventana extends JFrame implements ActionListener {
     JLabel[] etiquetasPanelInsertar = new JLabel[4];
     String opcionesPanelPrincipal[] = {"Insertar Dulce", "Actualizar Dulces", "Eliminar Dulces", "Buscar Dulces", "Listar Dulces"};
     String opcionesPanelEtiquetas[] = {"Nombre", "Categoria", "Precio", "Cantidad"};
-    JButton botonEnviarInsertar, botonEnviarActualizar, botonEnviarActualizarOpciones, botonEliminar, botonBuscar, botonRegresar;
-    JTextArea areaTextoNombre, areaTextoPrecio, areaTextoCantidad, areaTextoActualizar, areaTextoActualizarNombre, areaTextoActualizarPrecio, areaTextoActualizarCantidad, areaTextoEliminar, areaTextoBuscar;
+    JButton botonEnviarInsertar, botonEnviarActualizar, botonEnviarActualizarOpciones, botonEliminar, botonBuscar, botonRegresar, botonRegresarListar;
+    JTextArea areaTextoNombre, areaTextoPrecio, areaTextoCantidad, areaTextoActualizar, areaTextoActualizarNombre, areaTextoActualizarPrecio, areaTextoActualizarCantidad, areaTextoEliminar, areaTextoBuscar, areaTextoListar;
     String[] opciones = {"Acido","Dulce","Sin Azucar"};
     JComboBox<String> categorias;
-    JScrollPane scroll, scroll2, scroll3, scroll4, scroll5, scroll6;
+    JScrollPane scroll, scroll2, scroll3, scroll4, scroll5, scroll6, scroll7;
     String contenido, contenido2, contenido3, contenido4, contenido5, contenido6, contenido7, contenido8, contenido9, categoriaSeleccionada;
     JCheckBox checkBox1, checkBox2, checkBox3;
-    JTable tabla;
+    
 
     public Ventana(){
         setSize(500, 500); 
@@ -359,8 +358,22 @@ public class Ventana extends JFrame implements ActionListener {
         panelBuscar.add(panelBuscarSuperior);
         panelBuscar.add(panelBuscarInferior);
 
-        panelListar = new JPanel();
+        panelListar = new JPanel(new BorderLayout());
 
+        areaTextoListar = new JTextArea();
+        areaTextoListar.setEditable(false);
+        areaTextoListar.setBackground(Color.decode("#FFF3F9"));
+        areaTextoListar.setFont(new Font("Arial", Font.BOLD, 20));
+
+        scroll7 = new JScrollPane();
+        scroll7 = new JScrollPane(areaTextoListar, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        botonRegresarListar = new JButton("Regresar");
+        botonRegresarListar.addActionListener(this);
+
+
+        panelListar.add(scroll7, BorderLayout.CENTER);
+        panelListar.add(botonRegresarListar, BorderLayout.SOUTH);
     }
 
     public void actionPerformed(ActionEvent e){
@@ -398,6 +411,14 @@ public class Ventana extends JFrame implements ActionListener {
                 }
                 Dulce n1 = new Dulce(contenido,codigo,categoriaSeleccionada,Short.parseShort(contenido3),Short.parseShort(contenido2));
                 lista_dulces.add(n1);
+                
+                
+
+                
+
+                
+                
+                
                 System.out.println(lista_dulces.get(0));
                 JOptionPane.showMessageDialog(null,"El codigo del producto es: " + codigo, "CODIGO", JOptionPane.INFORMATION_MESSAGE);
                 areaTextoNombre.setText(null);
@@ -408,6 +429,7 @@ public class Ventana extends JFrame implements ActionListener {
                 panelPrincipal.setVisible(true);
                 add(panelPrincipal);
             }
+            
             
         }
         else if(e.getSource()==botonesPanelPrincipal[1]){
@@ -521,9 +543,19 @@ public class Ventana extends JFrame implements ActionListener {
             add(panelPrincipal);
         }
         else if(e.getSource() == botonesPanelPrincipal[4]){
+            for(int i = 0; i<lista_dulces.size(); i++){
+                areaTextoListar.append(lista_dulces.get(i).MostrarDatos() + "\n\n");
+            }
             panelPrincipal.setVisible(false);
-            panelListar.setVisible(true);
+            panelListar.setVisible(true);            
             add(panelListar);
         }
+        else if(e.getSource() == botonRegresarListar){
+            areaTextoListar.setText(null);
+            panelListar.setVisible(false);
+            panelPrincipal.setVisible(true);
+            add(panelPrincipal);
+        }
+
     }
 }

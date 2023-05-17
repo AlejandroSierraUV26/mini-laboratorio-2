@@ -44,15 +44,13 @@ public class Dulce {
     public void setPrecio(short precio) {
         this.precio = precio;
     }
-    public void MostrarDatos(){
-        System.out.println("-----------------------------------------------------------------");
-        System.out.println("                         Datos Dulce                          ");
-        System.out.println("-----------------------------------------------------------------");
-        System.out.println("|           Nombre: " + getNombre()+"                            \n"
-                        +  "|           Codigo : "+ getCodigo() +"                           \n" 
-                        +  "|           Precio : "+ getPrecio() +"                           \n"
-                        +  "|           Categoria : " + getCategoria() +"                \n"                
-                        +  "|           Cantidad : "+ getCantidad()+"                       "); 
-        System.out.println("-----------------------------------------------------------------");
+    public String MostrarDatos(){
+        String texto;
+        texto =(   "           Nombre: " + getNombre()+"                            \n"
+                +  "           Codigo : "+ getCodigo() +"                           \n" 
+                +  "           Precio : "+ getPrecio() +"                           \n"
+                +  "           Categoria : " + getCategoria() +"                \n"                
+                +  "           Cantidad : "+ getCantidad()+"                       "); 
+        return texto;
     }
 }
