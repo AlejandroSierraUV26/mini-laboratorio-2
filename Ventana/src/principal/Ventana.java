@@ -1,11 +1,11 @@
+package principal;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
+import logica.Dulce;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,7 +13,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,13 +24,16 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-
+import java.util.ArrayList;
 public class Ventana extends JFrame implements ActionListener {
-
-    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelActualizar, panelActualizarDatos, panelActualizarOpciones, panelEliminar, panelBuscar, panelBuscarSuperior, panelBuscarInferior, panelListar;
+    public static void main(String[] args){
+        Ventana v1 = new Ventana();
+        v1.setVisible(true);
+    }
+    ArrayList <Dulce> lista_dulces = new ArrayList<Dulce>();
+    JPanel panelPrincipal, panelPrincipal2, panelPrincipal3, panelEspacioDerecha, panelEspacioIzquierda, panelEspacioAbajo, panelInsertar, panelInsertarEtiquetas, panelActualizar, panelActualizarDatos, panelActualizarOpciones, panelEliminar, panelBuscar, panelBuscarSuperior, panelBuscarInferior, panelBuscarInferiorCentro, panelListar;
     ImageIcon imagenIcono;
-    JLabel logoRinconDulce, etiquetaActualizar, etiquetaActualizarDatos, etiquetaRelleno1, etiquetaRelleno2, etiquetaEliminar, etiquetaBuscar;
+    JLabel logoRinconDulce, etiquetaActualizar, etiquetaActualizarDatos, etiquetaRelleno1, etiquetaRelleno2, etiquetaEliminar, etiquetaBuscar, etiquetaBuscarNombre, etiquetaBuscarCategoria, etiquetaBuscarCantidad, etiquetaBuscarPrecio;
     JButton[] botonesPanelPrincipal = new JButton[5];
     JLabel[] etiquetasPanelInsertar = new JLabel[4];
     String opcionesPanelPrincipal[] = {"Insertar Dulce", "Actualizar Dulces", "Eliminar Dulces", "Buscar Dulces", "Listar Dulces"};
@@ -41,9 +43,9 @@ public class Ventana extends JFrame implements ActionListener {
     String[] opciones = {"Acido","Dulce","Sin Azucar"};
     JComboBox<String> categorias;
     JScrollPane scroll, scroll2, scroll3, scroll4, scroll5, scroll6;
-    String contenido, contenido2, contenido3, contenido4, contenido5, contenido6, contenido7, contenido8, contenido9;
+    String contenido, contenido2, contenido3, contenido4, contenido5, contenido6, contenido7, contenido8, contenido9, categoriaSeleccionada;
     JCheckBox checkBox1, checkBox2, checkBox3;
-    JTextField campoTexto;
+
     JTable tabla;
 
     
@@ -126,6 +128,7 @@ public class Ventana extends JFrame implements ActionListener {
         categorias = new JComboBox<>(opciones);
         categorias.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),30));
         categorias.setFont(new Font("Arial", Font.BOLD,25));
+        categorias.addActionListener(this);
         for(int i = 0; i<etiquetasPanelInsertar.length; i++){
             etiquetasPanelInsertar[i] = new JLabel();
             etiquetasPanelInsertar[i].setText(opcionesPanelEtiquetas[i]);
@@ -147,9 +150,7 @@ public class Ventana extends JFrame implements ActionListener {
                 panelInsertarEtiquetas.add(etiquetasPanelInsertar[3]);
                 panelInsertarEtiquetas.add(scroll3);
             }
-        }
-        
-        
+        }        
         botonEnviarInsertar = new JButton("Enviar");
         botonEnviarInsertar.addActionListener(this);
         
@@ -308,12 +309,14 @@ public class Ventana extends JFrame implements ActionListener {
         panelBuscar = new JPanel(new GridLayout(2,1));
         panelBuscarSuperior = new JPanel(new GridLayout(3,1));
         panelBuscarInferior = new JPanel(new BorderLayout());
+        panelBuscarInferiorCentro = new JPanel(new GridLayout(4,1));
 
         panelBuscarSuperior.setBackground(Color.decode("#FFF3F9"));
 
         etiquetaBuscar = new JLabel("Ingrese el codigo");
         etiquetaBuscar.setFont(new Font("Arial", Font.BOLD, 40));
         etiquetaBuscar.setHorizontalAlignment(SwingConstants.CENTER);
+
 
         areaTextoBuscar = new JTextArea();
         areaTextoBuscar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),5));
@@ -335,15 +338,31 @@ public class Ventana extends JFrame implements ActionListener {
         panelBuscarSuperior.add(areaTextoBuscar);
         panelBuscarSuperior.add(botonBuscar);
 
-        campoTexto = new JTextField();
-        campoTexto.setEditable(false);
-        //campoTexto.setBackground(Color.decode("#FFF3F9"));
-        campoTexto.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),50));
+        etiquetaBuscarNombre = new JLabel();
+        etiquetaBuscarNombre.setFont(new Font("Arial", Font.BOLD, 20));
+        etiquetaBuscarNombre.setHorizontalAlignment(SwingConstants.CENTER);
+
+        etiquetaBuscarCategoria = new JLabel();
+        etiquetaBuscarCategoria.setFont(new Font("Arial", Font.BOLD, 20));
+        etiquetaBuscarCategoria.setHorizontalAlignment(SwingConstants.CENTER);
+
+        etiquetaBuscarCantidad = new JLabel();
+        etiquetaBuscarCantidad.setFont(new Font("Arial", Font.BOLD, 20));
+        etiquetaBuscarCantidad.setHorizontalAlignment(SwingConstants.CENTER);
+
+        etiquetaBuscarPrecio = new JLabel();
+        etiquetaBuscarPrecio.setFont(new Font("Arial", Font.BOLD, 20));
+        etiquetaBuscarPrecio.setHorizontalAlignment(SwingConstants.CENTER);
 
         botonRegresar = new JButton("Regresar");
         botonRegresar.addActionListener(this);
 
-        panelBuscarInferior.add(campoTexto, BorderLayout.CENTER);
+        panelBuscarInferiorCentro.add(etiquetaBuscarNombre);
+        panelBuscarInferiorCentro.add(etiquetaBuscarCategoria);
+        panelBuscarInferiorCentro.add(etiquetaBuscarCantidad);
+        panelBuscarInferiorCentro.add(etiquetaBuscarPrecio);
+
+        panelBuscarInferior.add(panelBuscarInferiorCentro, BorderLayout.CENTER);
         panelBuscarInferior.add(botonRegresar, BorderLayout.SOUTH);
 
 
@@ -360,6 +379,7 @@ public class Ventana extends JFrame implements ActionListener {
         contenido2 = areaTextoPrecio.getText().trim();
         contenido3 = areaTextoCantidad.getText().trim();
         contenido4 = areaTextoActualizar.getText().trim();
+        categoriaSeleccionada = categorias.getSelectedItem().toString();
         if(e.getSource()==botonesPanelPrincipal[0]){
             panelPrincipal.setVisible(false);
             panelInsertar.setVisible(true);
@@ -370,7 +390,27 @@ public class Ventana extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null,"Llene todas las casillas","Advertencia",JOptionPane.WARNING_MESSAGE);       
             }
             else{
-                JOptionPane.showMessageDialog(null,"El codigo del producto es: ", "CODIGO", JOptionPane.INFORMATION_MESSAGE);
+                String codigo="";
+                int x,n;
+                String[] letras = 
+                {"A","B","C","D","E",
+                "F","G","H","I","J", 
+                "K","L","M","N","O", 
+                "P","Q","R","S","T", 
+                "U","V","W","X","Y","Z"};
+                //Pendiente comparacion para codigos iguales existentes.
+                for (int i =0;i<3;i++){
+                    x = (int) (Math.random() * 26 + 0);
+                    codigo += letras[x];
+                }
+                for (int i =0;i<3;i++){
+                    n = (int) (Math.random() * 10 + 0);
+                    codigo += n;
+                }
+                Dulce n1 = new Dulce(contenido,codigo,categoriaSeleccionada,Short.parseShort(contenido3),Short.parseShort(contenido2));
+                lista_dulces.add(n1);
+                System.out.println(lista_dulces.get(0));
+                JOptionPane.showMessageDialog(null,"El codigo del producto es: " + codigo, "CODIGO", JOptionPane.INFORMATION_MESSAGE);
                 areaTextoNombre.setText(null);
                 categorias.setSelectedItem("Acido");
                 areaTextoPrecio.setText(null);;
@@ -391,7 +431,7 @@ public class Ventana extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null,"El codigo debe ser de 6 caracteres","Advertencia",JOptionPane.WARNING_MESSAGE);
             }
             else{
-                areaTextoActualizar.setText(null);
+                etiquetaActualizarDatos.setText(contenido4);
                 panelActualizar.setVisible(false);             
                 panelActualizarDatos.setVisible(true);
                 add(panelActualizarDatos);
@@ -405,15 +445,31 @@ public class Ventana extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null,"Debes seleccionar una opcion y llenarla para actualizar","Advertencia",JOptionPane.WARNING_MESSAGE);
             }
             else{
+                System.out.println(contenido4);
+                for(int i=0; i<lista_dulces.size();i++){
+                    if(lista_dulces.get(i).getCodigo().equals(contenido4)){
+                        if(checkBox1.isSelected()){
+                            lista_dulces.get(i).setNombre(contenido5);
+                        }
+                        if(checkBox2.isSelected()){
+                            lista_dulces.get(i).setPrecio(Short.parseShort(contenido6));
+                        }
+                        if(checkBox3.isSelected()){
+                        lista_dulces.get(i).setCantidad(Short.parseShort(contenido6));      
+                        }
+                    }
+                }
                 JOptionPane.showMessageDialog(null,"Producto Actualizado","Actualizado",JOptionPane.INFORMATION_MESSAGE);
                 checkBox1.setSelected(false);
                 checkBox2.setSelected(false);
                 checkBox3.setSelected(false);
+                areaTextoActualizar.setText(null);
                 areaTextoActualizarNombre.setText(null);
                 areaTextoActualizarPrecio.setText(null);
                 areaTextoActualizarCantidad.setText(null);
                 panelActualizarDatos.setVisible(false);
                 panelPrincipal.setVisible(true);
+                
                 add(panelPrincipal);
             }
         }
@@ -428,6 +484,13 @@ public class Ventana extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null,"El codigo debe ser de 6 caracteres","Advertencia",JOptionPane.WARNING_MESSAGE);
             }
             else{
+                System.out.println(contenido8);
+                for(int i=0; i<lista_dulces.size();i++){
+                    if(lista_dulces.get(i).getCodigo().equals(contenido8)){
+                        lista_dulces.remove(lista_dulces.get(i));
+                    }
+                }
+                
                 JOptionPane.showMessageDialog(null,"Producto Eliminado","Eliminado",JOptionPane.INFORMATION_MESSAGE);
                 areaTextoEliminar.setText(null);
                 panelEliminar.setVisible(false);
@@ -446,13 +509,24 @@ public class Ventana extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null,"El codigo debe ser de 6 caracteres","Advertencia",JOptionPane.WARNING_MESSAGE);
             }
             else{
-                campoTexto.setBackground(Color.decode("#FFF3F9"));
+                for(int i=0; i<lista_dulces.size();i++){
+                    if(lista_dulces.get(i).getCodigo().equals(contenido9)){
+                        etiquetaBuscarNombre.setText("Nombre: " + lista_dulces.get(i).getNombre());
+                        etiquetaBuscarCategoria.setText("Categoria: "+ lista_dulces.get(i).getCategoria());
+                        etiquetaBuscarCantidad.setText("Cantidad: "+ lista_dulces.get(i).getCantidad());
+                        etiquetaBuscarPrecio.setText("Precio: " + lista_dulces.get(i).getPrecio());
+                    }
+                }
+
             }
             
         }
         else if(e.getSource() == botonRegresar){
             areaTextoBuscar.setText(null);
-            campoTexto.setBackground(null);
+            etiquetaBuscarNombre.setText(null);
+            etiquetaBuscarCategoria.setText(null);
+            etiquetaBuscarCantidad.setText(null);
+            etiquetaBuscarPrecio.setText(null);
             panelBuscar.setVisible(false);
             panelPrincipal.setVisible(true);
             add(panelPrincipal);
