@@ -45,12 +45,7 @@ public class Ventana extends JFrame implements ActionListener {
     JScrollPane scroll, scroll2, scroll3, scroll4, scroll5, scroll6;
     String contenido, contenido2, contenido3, contenido4, contenido5, contenido6, contenido7, contenido8, contenido9, categoriaSeleccionada;
     JCheckBox checkBox1, checkBox2, checkBox3;
-
     JTable tabla;
-
-    
-
-    
 
     public Ventana(){
         setSize(500, 500); 
@@ -60,14 +55,13 @@ public class Ventana extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         iniciarComponentes();
 
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     private void iniciarComponentes(){
         panelPrincipal = new JPanel();
         this.getContentPane().add(panelPrincipal);
-        imagenIcono = new ImageIcon(getClass().getResource("recursos/Logo_Rincon_Dulce.jpg"));
+        imagenIcono = new ImageIcon(getClass().getResource("/imagen/Rincon_Dulce.jpg"));
         logoRinconDulce = new JLabel(imagenIcono);
         panelPrincipal.setLayout(new GridLayout(2,1));
         panelPrincipal.add(logoRinconDulce);  
@@ -308,15 +302,14 @@ public class Ventana extends JFrame implements ActionListener {
 
         panelBuscar = new JPanel(new GridLayout(2,1));
         panelBuscarSuperior = new JPanel(new GridLayout(3,1));
-        panelBuscarInferior = new JPanel(new BorderLayout());
-        panelBuscarInferiorCentro = new JPanel(new GridLayout(4,1));
+        panelBuscarInferior = new JPanel(new GridLayout(5,1));
+        
 
         panelBuscarSuperior.setBackground(Color.decode("#FFF3F9"));
 
         etiquetaBuscar = new JLabel("Ingrese el codigo");
         etiquetaBuscar.setFont(new Font("Arial", Font.BOLD, 40));
         etiquetaBuscar.setHorizontalAlignment(SwingConstants.CENTER);
-
 
         areaTextoBuscar = new JTextArea();
         areaTextoBuscar.setBorder(BorderFactory.createLineBorder(Color.decode("#FFF3F9"),5));
@@ -357,21 +350,17 @@ public class Ventana extends JFrame implements ActionListener {
         botonRegresar = new JButton("Regresar");
         botonRegresar.addActionListener(this);
 
-        panelBuscarInferiorCentro.add(etiquetaBuscarNombre);
-        panelBuscarInferiorCentro.add(etiquetaBuscarCategoria);
-        panelBuscarInferiorCentro.add(etiquetaBuscarCantidad);
-        panelBuscarInferiorCentro.add(etiquetaBuscarPrecio);
-
-        panelBuscarInferior.add(panelBuscarInferiorCentro, BorderLayout.CENTER);
-        panelBuscarInferior.add(botonRegresar, BorderLayout.SOUTH);
-
+        panelBuscarInferior.add(etiquetaBuscarNombre);
+        panelBuscarInferior.add(etiquetaBuscarCategoria);
+        panelBuscarInferior.add(etiquetaBuscarCantidad);
+        panelBuscarInferior.add(etiquetaBuscarPrecio);
+        panelBuscarInferior.add(botonRegresar);
 
         panelBuscar.add(panelBuscarSuperior);
         panelBuscar.add(panelBuscarInferior);
 
         panelListar = new JPanel();
 
-        
     }
 
     public void actionPerformed(ActionEvent e){
